@@ -70,7 +70,7 @@ To use this guide, you'll need:
 
 ## Acknowledgments
 
-Special thanks to [chriscalver](https://github.com/chriscalver) and their repository [Wix-Banner-Remover](https://github.com/chriscalver/Wix-Banner-Remover) for their initial work on this topic. This guide builds upon and completes their effort.
+Special thanks to [bobojean](https://github.com/bobojean) and their repository [Hiding-Wix-Ad-for-Free](https://github.com/bobojean/Hiding-Wix-Ad-for-Free) for their initial work on this topic. This guide builds upon and completes their effort.
 
 ---
 
