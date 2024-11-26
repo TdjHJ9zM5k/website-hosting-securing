@@ -1,15 +1,8 @@
 # Custom Domain and Ad-Free Wix Sites
 
-### Badges
-- ![Status](https://img.shields.io/badge/status-active-brightgreen)  
-- ![License](https://img.shields.io/badge/license-MIT-blue)  
-- ![GCP](https://img.shields.io/badge/GCP-Cloud_Storage-blue)  
-- ![DNS](https://img.shields.io/badge/DNS-Domain_Registration-lightblue)  
-- ![Wix](https://img.shields.io/badge/Wix-Custom_Domain-orange)  
-- ![Cloudflare](https://img.shields.io/badge/CloudFlare-SSL-yellowgreen)  
-- ![Contributions](https://img.shields.io/badge/contributions-welcome-brightgreen)  
+![Status](https://img.shields.io/badge/status-active-brightgreen) ![License](https://img.shields.io/badge/license-MIT-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow)  ![GCP](https://img.shields.io/badge/GCP-Cloud_Storage-blue) ![DNS](https://img.shields.io/badge/DNS-Domain_Registration-lightblue) ![Wix](https://img.shields.io/badge/Wix-Custom_Domain-orange) ![Wix](https://img.shields.io/badge/Wix-Remove_Banner-orange) ![Cloudflare](https://img.shields.io/badge/CloudFlare-SSL-yellowgreen)
 
----
+
 
 ## Disclaimer
 
@@ -84,3 +77,6 @@ Special thanks to [chriscalver](https://github.com/chriscalver) and their reposi
 ## License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.  
+
+---
+ ![visitors](https://visitor-badge.laobi.icu/badge?page_id=TdjHJ9zM5k.wix-banner-remover)  
