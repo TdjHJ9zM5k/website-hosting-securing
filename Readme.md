@@ -75,66 +75,102 @@ To use this guide, you'll need:
 
 ### GCP Static Website Setup
 
-
 #### GCP Configuration 
 
-1. **Set up a GCP project**  
+1. **Register domain ownership**
+   - We need to create a Google Cloud Storage instance with the same name as our website. In order to do this, we need to prove Google we own the domain by adding a record to our DNS.
+   - Visit [Google Search Console](https://search.google.com/search-console/welcome)
+   - Fill in your domain name under the *Domain* section.
+   - Click *CONTINUE* and then select *CNAME* as verification method.
+   - Add a CNAME record to your DNS with the provided data.
+     
+2. **Set up a GCP project**  
    - [GCP Free trial credit](https://cloud.google.com/free/docs/free-cloud-features) can be used for our purposes.
 
-2. **Set up a GCP bucket for hosting**  
+3. **Set up a GCP bucket for hosting**
+   - An official Google documentation page can be accessed at [Hosting a static website using HTTP](https://cloud.google.com/storage/docs/hosting-static-website-http). Our procedure will differ in how public access is granted to each file. 
    - Use the same name as the registered domain with the format `www.my-domain.com`.
    - For our private-use, research-purpose project, we select a single region, like `us-central1`.
    - Deselect *Enforce public access prevention on this bucket* as we will be granting our file public access.  
 
      ![First Bucket Creation](docs/screenshots/GCP/first_bucket_creation.png)
 
-      - ✬ Equivalent gcloud commands:
-     
-     
-        ```bash
-        gcloud config set project <YOUR_PROJECT_ID>  # Replace with your actual project ID
-        # Set the region to us-central1
-        gcloud config set compute/region us-central1  
-   
-        # Create the bucket
-        gcloud storage buckets create gs://www.my-domain.com \
-          --location=us-central1 \
-          --storage-class=STANDARD \
-          --no-uniform-bucket-level-access \
-          --public-access-prevention=disabled \
-          --website-main-page-suffix=index.html \  # Enable static website hosting.
-          --website-not-found-page=404.html
-        ```
-
    - *Additional but not required:* Create a storage acting as a backup with the `NEARLINE` storage class for reducing costs and set up a replication policy.
-     
      
      ![Backup Bucket Creation](docs/screenshots/GCP/backup_bucket_creation.png)
      
      
-     - ✬ gcloud commands:  
-
+   - ✬ Equivalent gcloud commands:
      
-       ```bash
-       # Create the second bucket:
-       gcloud storage buckets create gs://www-my-domain-backup \
-         --location=us-central1 \
-         --storage-class=NEARLINE \
-         --uniform-bucket-level-access \
-         --public-access-prevention
+     
+        ```bash
+         # Set the project name
+         PROJECT_ID=<YOUR_PROJECT_ID>
+         
+         # Set the main bucket
+         MAIN_BUCKET_NAME="www.my-domain.com" #Change it to your registered domain
 
-       # Enable the Storage Transfer Service API:
-       gcloud services enable storagetransfer.googleapis.com
-
-       # Set up the IAM roles for the first bucket to allow replication:
-       gcloud storage buckets add-iam-policy-binding gs://www.my-domain.com \
-         --member=serviceAccount:storage-transfer-service-<YOUR_PROJECT_NUMBER>@gcp-sa-storagetransfer.iam.gserviceaccount.com \
-         --role=roles/storage.objectAdmin
-
-       # Create the replication policy:
-       gcloud storage buckets update gs://www.my-domain.com \
-         --add-replication=destination=gs://www-my-domain-backup
-       ```
+         # Set the bucket zone
+         BUCKET_ZONE="us-central1"
+         
+         # Dynamically create the backup bucket name
+         BACKUP_BUCKET_NAME="backup-${MAIN_BUCKET_NAME}"
+         
+         # Dynamically get the project ID
+         PROJECT_NUMBER=$(gcloud projects describe "$PROJECT_ID" --format="value(projectNumber)")
+         
+         # Set the active project
+         gcloud config set project "$PROJECT_ID"
+         
+         # Create the main bucket
+         gcloud storage buckets create "gs://${MAIN_BUCKET_NAME}" \
+           --location=${BUCKET_ZONE} \
+           --default-storage-class=STANDARD \
+           --no-public-access-prevention \
+           --no-uniform-bucket-level-access
+         
+         # Configure access to use index.html as the main page
+         gcloud storage buckets update "gs://${MAIN_BUCKET_NAME}" --web-main-page-suffix=index.html
+         
+         # Create the backup bucket
+         gcloud storage buckets create "gs://${BACKUP_BUCKET_NAME}" \
+           --location=${BUCKET_ZONE} \
+           --default-storage-class=NEARLINE \
+           --public-access-prevention \
+           --uniform-bucket-level-access
+         
+         # Enable the Storage Transfer Service API
+         gcloud services enable storagetransfer.googleapis.com
+         
+         # Set up IAM roles for data transfer
+         TRANSFER_SERVICE_ACCOUNT="project-${PROJECT_NUMBER}@storage-transfer-service.iam.gserviceaccount.com"
+         STORAGE_SERVICE_ACCOUNT="service-${PROJECT_NUMBER}@gs-project-accounts.iam.gserviceaccount.com"
+         
+         # Grant IAM roles for the main bucket
+         gcloud storage buckets add-iam-policy-binding "gs://${MAIN_BUCKET_NAME}" \
+           --member="serviceAccount:${TRANSFER_SERVICE_ACCOUNT}" \
+           --role="roles/storage.admin"
+         
+         # Grant IAM roles to the project for data transfer
+         gcloud projects add-iam-policy-binding "$PROJECT_NUMBER" \
+           --member="serviceAccount:${TRANSFER_SERVICE_ACCOUNT}" \
+           --role="roles/storage.admin"
+         
+         gcloud projects add-iam-policy-binding "$PROJECT_NUMBER" \
+           --member="serviceAccount:${TRANSFER_SERVICE_ACCOUNT}" \
+           --role="roles/pubsub.editor"
+         
+         # Grant IAM roles to the Cloud Storage service account
+         gcloud projects add-iam-policy-binding "$PROJECT_NUMBER" \
+           --member="serviceAccount:${STORAGE_SERVICE_ACCOUNT}" \
+           --role="roles/pubsub.publisher"
+         
+         # Create the replication job
+         gcloud alpha transfer jobs create "gs://${MAIN_BUCKET_NAME}" "gs://${BACKUP_BUCKET_NAME}" --replication
+         
+         # List active replication jobs
+         gcloud alpha transfer jobs list --job-type=replication
+        ```
    
    - ✬ A Terraform equivalent, including the `index.html` and `mobile.html` creation, can be found at [main.tf](terraform/main.tf).
 
