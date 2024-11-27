@@ -291,9 +291,9 @@ This setup ensures secure and optimized traffic handling for your custom domain,
 
 #### Overview  
 This section presents the two `index.html` and `mobile.html` files. The `index.html` is pretty straightforward, it contains a shifted iframe pointing at the wix webiste and a redirect to mobile.html when the screen with is less then 900px.
-\
-\
+<br><br>
 The `mobile.html` is a bit more complex as Wix forces a 320px width that results in a non-responsive resizing. This is addressed through zooming in/out the iframe as screen sizes changes.
+<br><br>
 *Note: I implemented the zooming feature using some help from ChatGpt, it may be enhanced more*
 
 #### The files
