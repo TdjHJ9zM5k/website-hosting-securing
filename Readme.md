@@ -11,7 +11,7 @@
 3. [Features](#features)  
 4. [Prerequisites](#prerequisites)  
 5. [Google Cloud Platform (GCP) Setup](#google-cloud-platform-gcp-setup)  
-6. [Cloudflare Setup](#cloudflare-configuration)   
+6. [Cloudflare Setup](#cloudflare-setup)   
 7. [HTML Files for Wix Banner Removal](#html-files-for-wix-banner-removal)  
 8. [Acknowledgments](#acknowledgments)  
 9. [License](#license)  
