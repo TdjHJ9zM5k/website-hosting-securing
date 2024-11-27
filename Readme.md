@@ -10,7 +10,7 @@
 2. [Overview](#overview)  
 3. [Features](#features)  
 4. [Prerequisites](#prerequisites)  
-5. [Steps](#steps)  
+5. [GCP Static Website Setup](#gcp-static-website-setup)  
    - [Domain Registration](#domain-registration)  
    - [GCP Configuration](#gcp-configuration)  
    - [Cloudflare Setup](#cloudflare-setup)  
@@ -44,17 +44,20 @@ While the primary focus is on bypassing certain free-tier restrictions on Wix, t
 ## Overview
 
 This guide demonstrates how to:  
-1. Set up a custom domain.  
-2. Iframe manipolation for desktop and mobile.  
+1. Set up a custom domain and configure DNS.
+2. Set up a static website with Google Cloud Storage that will be reached via a custom domain.
 3. Host your site using Google Cloud Storage.
-4. Configure SSL, DNS and Firewall through Cloudflare.
+4. Configure SSL, Namespace and Firewall through Cloudflare.
+5. Iframe manipulation for removing Wix banner on desktop and mobile.
+
+The guide is intended for techincal and non-technical audience. Steps requiring more in-depth knoledge are marked with a ✬ symbol.
 
 ---
 
 ## Features
 
 - **Custom Domain Integration**  
-  Connect your domain to your Wix site by hosting a static website on Google Cloud Storage with an iframe. Add a CNAME record pointing to the Cloud Storage file.
+  Connect your domain to your Wix site by hosting a static website on Google Cloud Storage Bucket.
 
 - **Free-tier Banner Removing**  
   Remove the Wix banner for cleaner desktop and mobile presentations.
@@ -77,79 +80,87 @@ To use this guide, you'll need:
 
 ---
 
-## Steps
+## Step-by-Step Guide
+
+### GCP Static Website Setup
 
 1. **Domain Registration**  
    Purchase and register a domain. Namecheap or GoDaddy are usually suggested.
 
 2. **GCP Configuration**
-   - Set up a GCP project. [GCP Free trial credit](https://cloud.google.com/free/docs/free-cloud-features) can be used for our purposes.
-   - Set up a GCP bucket for hosting.
-     - Use the same name as the registered domain with the format www.my-domain.com
-     - For our private-use, research-purpose project, we select single region, like us-central1
-     - Deselect *Enforce public access prevention on this bucket* as we will be granting our file public access.
-     - Equivalent gcloud commands:
-       ```bash
-        gcloud config set project <YOUR_PROJECT_ID>  # Replace with your actual project ID
-        # Set the region to us-central1
-        gcloud config set compute/region us-central1  
 
-        # Create the bucket
-        gcloud storage buckets create gs://www.my-domain.com \
-          --location=us-central1 \
-          --storage-class=STANDARD \
-          --no-uniform-bucket-level-access \
-          --public-access-prevention=disabled \
-          --website-main-page-suffix=index.html \  #Enable static website hosting.
-          --website-not-found-page=404.html
-       ```
-     - *Addional but not required:* create a storage acting as a backup with nearline storage class for reducing costs.
-       ```bash
-        #Create the second bucket:
-        gcloud storage buckets create gs://www-my-domain-backup \
-          --location=us-central1 \
-          --storage-class=NEARLINE \
-          --uniform-bucket-level-access \
-          --public-access-prevention
+   2.1. Set up a GCP project. [GCP Free trial credit](https://cloud.google.com/free/docs/free-cloud-features) can be used for our purposes.
 
-        #Enable the Storage Transfer Service API:
-        gcloud services enable storagetransfer.googleapis.com
+   2.2. Set up a GCP bucket for hosting.
 
-        #Set up the IAM roles for the first bucket to allow replication:
-        gcloud storage buckets add-iam-policy-binding gs://www.my-domain.com \
-          --member=serviceAccount:storage-transfer-service-<YOUR_PROJECT_NUMBER>@gcp-sa-storagetransfer.iam.gserviceaccount.com \
-          --role=roles/storage.objectAdmin
+       2.2.1. Use the same name as the registered domain with the format `www.my-domain.com`.
 
-        #Create the replication policy:
-        gcloud storage buckets update gs://www.my-domain.com \
-          --add-replication=destination=gs://www-my-domain-backup
-       ```
-     - A terraform equivalent, including the index.html and mobile.html creation, can be found at [main.tf](terraform/main.tf)
+       2.2.2. For our private-use, research-purpose project, we select a single region, like `us-central1`.
 
-4. **Cloudflare Setup**  
-   - Point DNS to the GCP bucket.  
-   - Configure SSL and nameservers.  
+       2.2.3. Deselect *Enforce public access prevention on this bucket* as we will be granting our file public access.
 
-5. **Test the Site**  
-   Verify that the custom domain is working, the Wix banner is removed, and HTTPS is enabled.  
+       ![First Bucket Creation](docs/screenshots/GCP/first_bucket_creation.png)
 
----
+       2.2.4. ✬ Equivalent gcloud commands:
+
+           ```bash
+             gcloud config set project <YOUR_PROJECT_ID>  # Replace with your actual project ID
+             # Set the region to us-central1
+             gcloud config set compute/region us-central1  
+      
+             # Create the bucket
+             gcloud storage buckets create gs://www.my-domain.com \
+               --location=us-central1 \
+               --storage-class=STANDARD \
+               --no-uniform-bucket-level-access \
+               --public-access-prevention=disabled \
+               --website-main-page-suffix=index.html \  # Enable static website hosting.
+               --website-not-found-page=404.html
+           ```
+
+       2.2.5. *Additional but not required:* Create a storage acting as a backup with the `NEARLINE` storage class for reducing costs and set up a replication policy.
+
+       ![Backup Bucket Creation](docs/screenshots/GCP/backup_bucket_creation.png)
+
+       2.2.5.1. ✬ gcloud commands:
+
+          ```bash
+             # Create the second bucket:
+             gcloud storage buckets create gs://www-my-domain-backup \
+               --location=us-central1 \
+               --storage-class=NEARLINE \
+               --uniform-bucket-level-access \
+               --public-access-prevention
+      
+             # Enable the Storage Transfer Service API:
+             gcloud services enable storagetransfer.googleapis.com
+      
+             # Set up the IAM roles for the first bucket to allow replication:
+             gcloud storage buckets add-iam-policy-binding gs://www.my-domain.com \
+               --member=serviceAccount:storage-transfer-service-<YOUR_PROJECT_NUMBER>@gcp-sa-storagetransfer.iam.gserviceaccount.com \
+               --role=roles/storage.objectAdmin
+      
+             # Create the replication policy:
+             gcloud storage buckets update gs://www.my-domain.com \
+               --add-replication=destination=gs://www-my-domain-backup
+          ```
+
+       2.2.6. ✬ A Terraform equivalent, including the `index.html` and `mobile.html` creation, can be found at [main.tf](terraform/main.tf).
+
+
+
 
 ### Cloudflare Setup
 
 #### Overview  
 This section covers the configuration of HTTPS, DNS, nameservers, and Web Application Firewall (WAF) rules using Cloudflare. The goal is to secure your static website hosted on Google Cloud Platform (GCP) and ensure proper traffic handling.  
 
----
 
 #### Prerequisites  
 - A Cloudflare account.  
 - The domain name registered and added to your Cloudflare account.  
 - Access to the DNS management settings in your registrar's dashboard.  
 
----
-
-#### Step-by-Step Guide  
 
 1. **Add Your Domain to Cloudflare**  
    - Log in to your Cloudflare account.  
@@ -196,7 +207,6 @@ This section covers the configuration of HTTPS, DNS, nameservers, and Web Applic
        Redirect to: `https://www.my-domain.com/$1`  
        (Enable "Forwarding URL")  
 
----
 
 #### Configure Cloudflare WAF Rules  
 
@@ -239,14 +249,12 @@ This section covers the configuration of HTTPS, DNS, nameservers, and Web Applic
    - Rule: Block all known bots.  
    - Enable the "Known Bots" option in Cloudflare WAF.
 
----
 
 #### Test the Configuration  
 - Verify that `www.my-domain.com` resolves correctly and loads your static website.  
 - Ensure HTTPS is enforced and all redirects work as expected.  
 - Test the WAF rules using different countries, user agents, and URLs.
 
----
 
 This setup ensures secure and optimized traffic handling for your custom domain, leveraging Cloudflare's powerful tools to enhance the functionality and security of your site.
 
