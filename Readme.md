@@ -21,11 +21,9 @@
 ## Disclaimer
 
 **This is a research project** designed to showcase how iframe manipulation and DNS configuration can be leveraged to bypass basic free-tier restrictions. The guide is not intended to encourage users to avoid paying for Wix's premium services.
-\
-\
+<br><br>
 The author assumes **no responsibility** for any misuse of the information provided, including any breach of Wix's terms of service.
-\
-\
+<br><br>
 While the primary focus is on bypassing certain free-tier restrictions on Wix, the methods presented here for domain configuration, static site hosting, and security via Cloudflare can be repurposed for many other use cases.
 
 ---
@@ -37,8 +35,8 @@ This guide demonstrates how to:
 2. Set up a static website with Google Cloud Storage that will be reached via a custom domain.
 3. Host your site using Google Cloud Storage.
 4. Configure SSL, Namespace and Firewall through Cloudflare.
-5. Iframe manipulation for removing Wix banner on desktop and mobile.
-\
+5. iframe manipulation for removing Wix banner on desktop and mobile.
+   
 The guide is intended for techincal and non-technical audience. Steps requiring more in-depth knoledge are marked with a ✬ symbol.
 
 ---
