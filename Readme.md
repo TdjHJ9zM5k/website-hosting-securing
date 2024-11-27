@@ -1,12 +1,43 @@
-# Custom Domain and Ad-Free Wix Sites
+# Custom Domain configuration and securing + Wix premium features bypass
 
 ![Status](https://img.shields.io/badge/status-active-brightgreen) ![License](https://img.shields.io/badge/license-MIT-blue) ![HTML](https://img.shields.io/badge/HTML-5-orange) ![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow)  ![GCP](https://img.shields.io/badge/GCP-Cloud_Storage-blue) ![DNS](https://img.shields.io/badge/DNS-Domain_Registration-lightblue) ![Wix](https://img.shields.io/badge/Wix-Custom_Domain-orange) ![Wix](https://img.shields.io/badge/Wix-Remove_Banner-orange) ![Cloudflare](https://img.shields.io/badge/CloudFlare-SSL-yellowgreen)
 
+---
+
+## Table of Contents
+
+1. [Disclaimer](#disclaimer)  
+2. [Overview](#overview)  
+3. [Features](#features)  
+4. [Prerequisites](#prerequisites)  
+5. [Steps](#steps)  
+   - [Domain Registration](#domain-registration)  
+   - [GCP Configuration](#gcp-configuration)  
+   - [Cloudflare Setup](#cloudflare-setup)  
+   - [Test the Site](#test-the-site)  
+6. [Cloudflare Setup](#cloudflare-setup-1)  
+   - [Overview](#overview-1)  
+   - [Prerequisites](#prerequisites-1)  
+   - [Step-by-Step Guide](#step-by-step-guide)  
+7. [Configure Cloudflare WAF Rules](#configure-cloudflare-waf-rules)  
+   - [Restrict Traffic to Specific Countries](#restrict-traffic-to-specific-countries)  
+   - [Block Access to Unwanted Pages](#block-access-to-unwanted-pages)  
+   - [Block Suspicious User Agents](#block-suspicious-user-agents)  
+   - [Block Based on Threat Score](#block-based-on-threat-score)  
+   - [Block Known Bots](#block-known-bots)  
+8. [Test the Configuration](#test-the-configuration)  
+9. [Acknowledgments](#acknowledgments)  
+10. [License](#license)  
+
+---
+
 ## Disclaimer
 
-**This is a research project** designed to showcase how iframe manipulation and dns configuration can be leveraged to bypass basic free-tier restrictions. The guide is not intended to encourage users to avoid paying for Wix's premium services.
+**This is a research project** designed to showcase how iframe manipulation and DNS configuration can be leveraged to bypass basic free-tier restrictions. The guide is not intended to encourage users to avoid paying for Wix's premium services.
 
 The author assumes **no responsibility** for any misuse of the information provided, including any breach of Wix's terms of service.
+
+While the primary focus is on bypassing certain free-tier restrictions on Wix, the methods presented here for domain configuration, static site hosting, and security via Cloudflare can be repurposed for many other use cases.
 
 ---
 
