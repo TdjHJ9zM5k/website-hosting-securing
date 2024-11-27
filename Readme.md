@@ -4,7 +4,7 @@
 
 ## Disclaimer
 
-**This is a research project** designed to explore how multiple technologies can be integrated to host a simple, non-commercial website with minimum cost. The guide is not intended to encourage users to avoid paying for Wix's premium services.
+**This is a research project** designed to showcase how iframe manipulation and dns configuration can be leveraged to bypass basic free-tier restrictions. The guide is not intended to encourage users to avoid paying for Wix's premium services.
 
 The author assumes **no responsibility** for any misuse of the information provided, including any breach of Wix's terms of service.
 
@@ -23,16 +23,16 @@ This guide demonstrates how to:
 ## Features
 
 - **Custom Domain Integration**  
-  Connect your domain to your Wix site by hosting a static website on Google Cloud Storage with an iframe and a CNAME record pointing to the Cloud Storage file.
+  Connect your domain to your Wix site by hosting a static website on Google Cloud Storage with an iframe. Add a CNAME record pointing to the Cloud Storage file.
 
-- **Ad-Free Experience**  
-  Remove the Wix banner for cleaner desktop and mobile presentations.  
+- **Free-tier Banner Removing**  
+  Remove the Wix banner for cleaner desktop and mobile presentations.
 
 - **Static Hosting**  
   Use Google Cloud Storage as a static website host.  
 
 - **Secure Website**  
-  Enable HTTPS with Cloudflare SSL.
+  Implement HTTPS and WAF with Cloudflare.
 
 ---
 
@@ -49,17 +49,57 @@ To use this guide, you'll need:
 ## Steps
 
 1. **Domain Registration**  
-   Purchase and register a domain.  
+   Purchase and register a domain. Namecheap or GoDaddy are usually suggested.
 
-2. **GCP Configuration**  
-   - Set up a GCP bucket for hosting.  
-   - Enable static website hosting.  
+2. **GCP Configuration**
+   - Set up a GCP project. [GCP Free trial credit](https://cloud.google.com/free/docs/free-cloud-features) can be used for our purposes.
+   - Set up a GCP bucket for hosting.
+     - Use the same name as the registered domain with the format www.my-domain.com
+     - For our private-use, research-purpose project, we select single region, like us-central1
+     - Deselect *Enforce public access prevention on this bucket* as we will be granting our file public access.
+     - Equivalent gcloud commands:
+       ```bash
+        gcloud config set project <YOUR_PROJECT_ID>  # Replace with your actual project ID
+        # Set the region to us-central1
+        gcloud config set compute/region us-central1  
 
-3. **Cloudflare Setup**  
+        # Create the bucket
+        gcloud storage buckets create gs://www.my-domain.com \
+          --location=us-central1 \
+          --storage-class=STANDARD \
+          --no-uniform-bucket-level-access \
+          --public-access-prevention=disabled \
+          --website-main-page-suffix=index.html \  #Enable static website hosting.
+          --website-not-found-page=404.html
+       ```
+     - *Addional but not required:* create a storage acting as a backup with nearline storage class for reducing costs.
+       ```bash
+        #Create the second bucket:
+        gcloud storage buckets create gs://www-my-domain-backup \
+          --location=us-central1 \
+          --storage-class=NEARLINE \
+          --uniform-bucket-level-access \
+          --public-access-prevention
+
+        #Enable the Storage Transfer Service API:
+        gcloud services enable storagetransfer.googleapis.com
+
+        #Set up the IAM roles for the first bucket to allow replication:
+        gcloud storage buckets add-iam-policy-binding gs://www.my-domain.com \
+          --member=serviceAccount:storage-transfer-service-<YOUR_PROJECT_NUMBER>@gcp-sa-storagetransfer.iam.gserviceaccount.com \
+          --role=roles/storage.objectAdmin
+
+        #Create the replication policy:
+        gcloud storage buckets update gs://www.my-domain.com \
+          --add-replication=destination=gs://www-my-domain-backup
+       ```
+     - A terraform equivalent, including the index.html and mobile.html creation, can be found at [main.tf](terraform/main.tf)
+
+4. **Cloudflare Setup**  
    - Point DNS to the GCP bucket.  
    - Configure SSL and nameservers.  
 
-4. **Test the Site**  
+5. **Test the Site**  
    Verify that the custom domain is working, the Wix banner is removed, and HTTPS is enabled.  
 
 ---
