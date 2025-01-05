@@ -305,20 +305,28 @@ The `mobile.html` is a bit more complex as Wix forces a 320px width that results
    <br>
    
    ```html
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Il sito simpatico del matrimonio di Francesca e Davide</title>
+          <link rel="icon" href="https://storage.googleapis.com/www.davide-francesca-wedding.com/favicon.ico" type="image/x-icon">
+      
       </head>
-        <title>My Custom Title</title>
-        <link rel="icon" href="https://storage.googleapis.com/www.my-domain.com/favicon.ico" type="image/x-icon">
-        <body>
-          <iframe src="https://username.wixsite.com/name" style="position:fixed; top:-50px; left:0px; bottom:0px; right:0px; width:100%; height:105%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;">
-          </iframe>
-          
+      <body>
+        <iframe src="https://francescadavide0807.wixsite.com/info" allow="autoplay" style="position:fixed; top:-50px; left:0px; bottom:0px; right:0px; width:100%; height:105%; ">
+        </iframe>  
+         
+      
           <script type="text/javascript">
           if (screen.width <= 900) {
             document.location = "/mobile.html";
           }
+      
           </script>
         
-        </body>
+      </body>
       </html>
    ```
    
@@ -329,9 +337,13 @@ The `mobile.html` is a bit more complex as Wix forces a 320px width that results
    <br>
    
    ```html
-      <html>
-        <title>My Custom Title</title>
-          <link rel="icon" href="https://storage.googleapis.com/www.my-domain.com/favicon.ico" type="image/x-icon">
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <title>Il sito simpatico del matrimonio di Francesca e Davide</title>
+          <link rel="icon" href="https://storage.googleapis.com/www.davide-francesca-wedding.com/favicon.ico" type="image/x-icon">
+          <meta name="theme-color" content="#6E1633">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
           /* Hide only the Wix ad banner */
@@ -353,7 +365,7 @@ The `mobile.html` is a bit more complex as Wix forces a 320px width that results
       
         <body>
         
-          <iframe src="https://username.wixsite.com/name" style="    position: fixed;    left: 0px;    top: -39px;    width: 100%;    height: 108%;}">
+          <iframe src="https://francescadavide0807.wixsite.com/info" allow="autoplay" style="position: fixed;    left: 0px;    top: -39px;    width: 100%;    height: 108%;">
           </iframe>  
           <script>
             function resizeIframe() {
