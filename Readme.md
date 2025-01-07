@@ -344,25 +344,25 @@ The `mobile.html` is a bit more complex as Wix forces a 320px width that results
               <link rel="icon" href="https://storage.googleapis.com/www.my-website.com/favicon.ico" type="image/x-icon">
               <meta name="theme-color" content="#6E1633">
               <meta name="viewport" content="width=device-width, initial-scale=1.0">
+           
+              <style>
+                /* Hide only the Wix ad banner */
+                iframe {
+                  position: fixed;
+                  left: 0;
+                  top: -39px; /* Adjust as needed to hide the banner */
+                  width: 100%;
+                  height: calc(100% + 39px); /* Adjusted to cover the area hidden by the banner */
+                  border: none;
+                }
+                /* Remove any padding and margin */
+                body {
+                  margin: 0;
+                  padding: 0;
+                  background-color:#E9CAB1;
+                }
+              </style>
            </head>
-           <style>
-             /* Hide only the Wix ad banner */
-             iframe {
-               position: fixed;
-               left: 0;
-               top: -39px; /* Adjust as needed to hide the banner */
-               width: 100%;
-               height: calc(100% + 39px); /* Adjusted to cover the area hidden by the banner */
-               border: none;
-             }
-             /* Remove any padding and margin */
-             body {
-               margin: 0;
-               padding: 0;
-               background-color:#E9CAB1;
-             }
-           </style>
-         
            <body>
            
              <iframe src="https://my.wixsite.com/" style="position: fixed;    left: 0px;    top: -39px;    width: 100%;    height: 108%;">
