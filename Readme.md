@@ -304,29 +304,27 @@ The `mobile.html` is a bit more complex as Wix forces a 320px width that results
    <br>
    
    ```html
-      <!DOCTYPE html>
-      <html lang="it">
-         <head>
-           <meta charset="UTF-8">
-           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-           <title>My title</title>
-             <link rel="icon" href="https://storage.googleapis.com/www.my-website.com/favicon.ico" type="image/x-icon">
-         
-         </head>
-         <body>
-           <iframe src="https://my.wixsite.com/" style="position:fixed; top:-50px; left:0px; bottom:0px; right:0px; width:100%; height:105%; ">
-           </iframe>  
-            
-         
-             <script type="text/javascript">
-             if (screen.width <= 900) {
-               document.location = "/mobile.html";
-             }
-         
-             </script>
+         <!DOCTYPE html>
+         <html lang="it">
+            <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>My title</title>
+              <link rel="icon" href="https://storage.googleapis.com/www.my-website.com/favicon.ico" type="image/x-icon">
+            </head>
            
-         </body>
-      </html>
+            <body>
+              <iframe src="https://my.wixsite.com/" style="position:fixed; top:-50px; left:0px; bottom:0px; right:0px; width:100%; height:105%; ">
+              </iframe>  
+            
+              <script type="text/javascript">
+                if (screen.width <= 900) {
+                  document.location = "/mobile.html";
+                }
+              </script>
+              
+            </body>
+         </html>
    ```
    
 3. **mobile.html**
