@@ -13,8 +13,7 @@
 5. [Google Cloud Platform (GCP) Setup](#google-cloud-platform-gcp-setup)  
 6. [Cloudflare Setup](#cloudflare-setup)   
 7. [HTML Files for Wix Banner Removal](#html-files-for-wix-banner-removal)  
-8. [Acknowledgments](#acknowledgments)  
-9. [License](#license)  
+8. [Acknowledgments](#acknowledgments)   
 
 ---
 
@@ -411,12 +410,7 @@ The `mobile.html` is a bit more complex as Wix forces a 320px width that results
 ## Acknowledgments
 
 Special thanks to [bobojean](https://github.com/bobojean) and their repository [Hiding-Wix-Ad-for-Free](https://github.com/bobojean/Hiding-Wix-Ad-for-Free) for their initial work on this topic. This guide builds upon and completes their effort.
-
----
-
-## License
-
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.  
+  
 
 ---
 ![visitors](https://visitor-badge.laobi.icu/badge?page_id=TdjHJ9zM5k.wix-banner-remover)
