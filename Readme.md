@@ -1,29 +1,16 @@
-# Custom Domain configuration and securing + Wix premium features bypass
-
+# My wedding website repo + Website securing and hosting guide
 ![Status](https://img.shields.io/badge/status-active-brightgreen) ![GCP](https://img.shields.io/badge/GCP-Cloud_Storage-blue) ![DNS](https://img.shields.io/badge/DNS-Domain_Registration-lightblue) ![Wix](https://img.shields.io/badge/Wix-Custom_Domain-orange) ![Wix](https://img.shields.io/badge/Wix-Remove_Banner-orange) ![Cloudflare](https://img.shields.io/badge/CloudFlare-SSL-yellowgreen)
 
 ---
 
 ## Table of Contents
 
-1. [Disclaimer](#disclaimer)  
-2. [Overview](#overview)  
-3. [Features](#features)  
-4. [Prerequisites](#prerequisites)  
-5. [Google Cloud Platform (GCP) Setup](#google-cloud-platform-gcp-setup)  
-6. [Cloudflare Setup](#cloudflare-setup)   
-7. [HTML Files for Wix Banner Removal](#html-files-for-wix-banner-removal)  
-8. [Acknowledgments](#acknowledgments)   
-
----
-
-## Disclaimer
-
-**This is a research project** designed to showcase how iframe manipulation and DNS configuration can be leveraged to bypass basic free-tier restrictions. The guide is not intended to encourage users to avoid paying for Wix's premium services.
-<br><br>
-The author assumes **no responsibility** for any misuse of the information provided, including any breach of Wix's terms of service.
-<br><br>
-While the primary focus is on bypassing certain free-tier restrictions on Wix, the methods presented here for domain configuration, static site hosting, and security via Cloudflare can be repurposed for many other use cases.
+1. [Overview](#overview)
+2. [Features](#features)  
+3. [Prerequisites](#prerequisites)  
+4. [Google Cloud Platform (GCP) Setup](#google-cloud-platform-gcp-setup)  
+5. [Cloudflare Setup](#cloudflare-setup)   
+6. [HTML Files for Wix Banner Removal](#html-files-for-wix-banner-removal)  
 
 ---
 
@@ -44,9 +31,6 @@ The guide is intended for techincal and non-technical audience. Steps requiring 
 
 - **Custom Domain Integration**  
   Connect your domain to your Wix site by hosting a static website on Google Cloud Storage Bucket.
-
-- **Free-tier Banner Removing**  
-  Remove the Wix banner for cleaner desktop and mobile presentations.
 
 - **Static Hosting**  
   Use Google Cloud Storage as a static website host.  
@@ -406,9 +390,8 @@ The `mobile.html` is a bit more complex as Wix forces a 320px width that results
 
 ---
 
-## Acknowledgments
+## Bonus
 
-Special thanks to [bobojean](https://github.com/bobojean) and their repository [Hiding-Wix-Ad-for-Free](https://github.com/bobojean/Hiding-Wix-Ad-for-Free) for their initial work on this topic. This guide builds upon and completes their effort.
   
 
 ---
