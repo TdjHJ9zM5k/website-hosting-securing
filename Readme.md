@@ -21,7 +21,8 @@ This guide demonstrates how to:
 2. Set up a static website with Google Cloud Storage that will be reached via a custom domain.
 3. Host your site using Google Cloud Storage.
 4. Configure SSL, Namespace and Firewall through Cloudflare.
-5. iframe manipulation for removing Wix banner on desktop and mobile.
+5. iframe manipulation
+6. Implement APIs in Wix Velo
    
 The guide is intended for techincal and non-technical audience. Steps requiring more in-depth knoledge are marked with a ✬ symbol.
 
