@@ -1,5 +1,4 @@
 # My wedding website repo + Website securing and hosting guide
-![Status](https://img.shields.io/badge/status-active-brightgreen) ![GCP](https://img.shields.io/badge/GCP-Cloud_Storage-blue) ![DNS](https://img.shields.io/badge/DNS-Domain_Registration-lightblue) ![Wix](https://img.shields.io/badge/Wix-Custom_Domain-orange) ![Wix](https://img.shields.io/badge/Wix-Remove_Banner-orange) ![Cloudflare](https://img.shields.io/badge/CloudFlare-SSL-yellowgreen)
 
 ---
 
@@ -8,9 +7,10 @@
 1. [Overview](#overview)
 2. [Features](#features)  
 3. [Prerequisites](#prerequisites)  
-4. [Google Cloud Platform (GCP) Setup](#google-cloud-platform-gcp-setup)  
+4. [Google Cloud Platform (GCP) Setup](#gcp-static-website-setup)  
 5. [Cloudflare Setup](#cloudflare-setup)   
-6. [HTML Files for Wix Banner Removal](#html-files-for-wix-banner-removal)  
+6. [HTML Files for Wix Banner Removal](#html-files-for-wix-banner-removal)
+7. [Bonus - Weather APIs](#bonus-weather-apis)
 
 ---
 
@@ -390,9 +390,8 @@ The `mobile.html` is a bit more complex as Wix forces a 320px width that results
 
 ---
 
-## Bonus
-
-  
+## Bonus Weather APIs
+An implementation of The Norwegian Meteorological Institute Weather API can be found in [/velo/weather.js](/velo/weather.js). It is leveraged to present a weather widget.
 
 ---
 ![visitors](https://visitor-badge.laobi.icu/badge?page_id=TdjHJ9zM5k.wix-banner-remover)
